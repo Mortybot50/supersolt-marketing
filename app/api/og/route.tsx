@@ -15,26 +15,40 @@ export async function GET() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          background: "#fafaf8",
+          background: "#F5F0E8",
           padding: "80px 96px",
           fontFamily: "system-ui, -apple-system, sans-serif",
           position: "relative",
-          color: "#0a0a0a",
+          color: "#1A1815",
         }}
       >
-        {/* Subtle accent gradient */}
+        {/* Coral wash */}
         <div
           style={{
             position: "absolute",
-            top: -200,
-            right: -100,
-            width: 700,
-            height: 700,
+            top: -240,
+            right: -160,
+            width: 760,
+            height: 760,
             borderRadius: "50%",
             background:
-              "radial-gradient(circle at center, rgba(195,38,28,0.18), transparent 60%)",
+              "radial-gradient(circle at center, rgba(217,84,59,0.22), transparent 62%)",
           }}
         />
+        {/* Amber fragment */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: -180,
+            left: -120,
+            width: 520,
+            height: 520,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle at center, rgba(232,160,74,0.18), transparent 65%)",
+          }}
+        />
+
         {/* Brand */}
         <div
           style={{
@@ -42,7 +56,7 @@ export async function GET() {
             alignItems: "center",
             gap: 14,
             fontSize: 28,
-            fontWeight: 600,
+            fontWeight: 500,
             letterSpacing: -0.5,
           }}
         >
@@ -51,18 +65,18 @@ export async function GET() {
               width: 44,
               height: 44,
               borderRadius: 10,
-              background: "#0a0a0a",
+              background: "#1A1815",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#fff",
+              color: "#F5F0E8",
               fontSize: 24,
               fontWeight: 700,
             }}
           >
-            S
+            ✓
           </div>
-          SuperSolt
+          supersolt
         </div>
 
         {/* Headline */}
@@ -76,21 +90,22 @@ export async function GET() {
         >
           <div
             style={{
-              fontSize: 88,
+              fontSize: 92,
               lineHeight: 1.02,
-              fontWeight: 600,
-              letterSpacing: -2.5,
-              maxWidth: 950,
+              fontWeight: 500,
+              letterSpacing: -3,
+              maxWidth: 980,
               display: "flex",
               flexWrap: "wrap",
-              gap: 14,
+              gap: 16,
+              textTransform: "lowercase",
             }}
           >
             <span>Run every venue from one</span>
             <span
               style={{
-                color: "#c3261c",
-                borderBottom: "5px solid #c3261c",
+                color: "#D9543B",
+                borderBottom: "6px solid #D9543B",
                 paddingBottom: 6,
               }}
             >
@@ -100,7 +115,7 @@ export async function GET() {
           <div
             style={{
               fontSize: 28,
-              color: "#71706b",
+              color: "#5C5A55",
               maxWidth: 900,
               lineHeight: 1.4,
             }}
@@ -117,12 +132,13 @@ export async function GET() {
             display: "flex",
             justifyContent: "space-between",
             fontSize: 22,
-            color: "#71706b",
+            color: "#5C5A55",
             letterSpacing: 0.5,
+            textTransform: "uppercase",
           }}
         >
           <div>Made in Melbourne, AU</div>
-          <div style={{ color: "#0a0a0a", fontWeight: 500 }}>supersolt.app</div>
+          <div style={{ color: "#1A1815", fontWeight: 500 }}>supersolt.app</div>
         </div>
       </div>
     ),

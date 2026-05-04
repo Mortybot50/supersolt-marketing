@@ -1,5 +1,6 @@
 import { Section, Eyebrow, SectionHeading } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
+import { withAccent } from "@/components/ui/accent-word";
 import {
   Accordion,
   AccordionItem,
@@ -10,18 +11,21 @@ import { FAQ } from "@/content/landing";
 
 export function Faq() {
   return (
-    <Section id="faq">
+    <Section id="faq" variant="canvas">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)] lg:gap-20">
         <Reveal>
           <Eyebrow>{FAQ.eyebrow}</Eyebrow>
-          <SectionHeading className="text-balance">
-            {FAQ.headline}
+          <SectionHeading>
+            {withAccent(FAQ.headline, FAQ.accentWord, {
+              underline: true,
+              variant: "short",
+            })}
           </SectionHeading>
-          <p className="mt-5 max-w-md text-[16px] leading-relaxed text-warm-gray">
-            Can't find your answer? Email{" "}
+          <p className="mt-8 max-w-[42ch] text-[16px] leading-relaxed text-[var(--color-ink-secondary)]">
+            Can&rsquo;t find your answer? Email{" "}
             <a
               href="mailto:morty@supersolt.app"
-              className="text-base-dark underline underline-offset-4 hover:text-accent"
+              className="text-[var(--color-ink-primary)] underline underline-offset-4 hover:text-[var(--color-accent-coral)]"
             >
               morty@supersolt.app
             </a>{" "}
@@ -34,7 +38,7 @@ export function Faq() {
             type="single"
             collapsible
             defaultValue="item-0"
-            className="border-t border-line"
+            className="border-t border-[var(--color-rule-line)]"
           >
             {FAQ.items.map((item, i) => (
               <AccordionItem key={item.q} value={`item-${i}`}>

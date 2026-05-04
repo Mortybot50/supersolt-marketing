@@ -4,30 +4,30 @@ interface SectionProps {
   id?: string;
   className?: string;
   children: React.ReactNode;
-  variant?: "light" | "dark" | "accent-soft";
+  variant?: "canvas" | "canvas-deep" | "dark";
   containerClassName?: string;
 }
 
 /**
  * Standard page section: vertical rhythm + container.
- * Variants control colour scheme.
+ * Variants: canvas (warm bone), canvas-deep (slightly darker bone), dark (warm charcoal).
  */
 export function Section({
   id,
   className,
   children,
-  variant = "light",
+  variant = "canvas",
   containerClassName,
 }: SectionProps) {
   return (
     <section
       id={id}
       className={cn(
-        "py-20 md:py-28 lg:py-32",
-        variant === "light" && "bg-base-light text-base-dark",
-        variant === "dark" && "bg-base-dark text-base-light",
-        variant === "accent-soft" &&
-          "bg-[#f5f3ed] text-base-dark border-y border-line",
+        "section-pad",
+        variant === "canvas" && "bg-[var(--color-bg-canvas)] text-[var(--color-ink-primary)]",
+        variant === "canvas-deep" &&
+          "bg-[var(--color-bg-canvas-deep)] text-[var(--color-ink-primary)]",
+        variant === "dark" && "bg-[var(--color-panel-dark)] text-[var(--color-ink-inverse)]",
         className,
       )}
     >
@@ -50,15 +50,20 @@ export function Eyebrow({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em]",
-        variant === "light" ? "text-warm-gray" : "text-warm-gray-soft",
+        "inline-flex items-center gap-2 font-mono text-[12px] uppercase",
+        "[letter-spacing:var(--tracking-eyebrow)]",
+        variant === "light"
+          ? "text-[var(--color-ink-secondary)]"
+          : "text-[var(--color-ink-inverse)]/70",
         className,
       )}
     >
       <span
         className={cn(
           "h-px w-6",
-          variant === "light" ? "bg-warm-gray/60" : "bg-warm-gray-soft/40",
+          variant === "light"
+            ? "bg-[var(--color-rule-line)]"
+            : "bg-[var(--color-rule-line-dark)]",
         )}
         aria-hidden="true"
       />
@@ -79,12 +84,7 @@ export function SectionHeading({
   as: Tag = "h2",
 }: SectionHeadingProps) {
   return (
-    <Tag
-      className={cn(
-        "mt-4 max-w-3xl text-balance font-sans text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.05] tracking-tighter",
-        className,
-      )}
-    >
+    <Tag className={cn("h-display mt-6 max-w-[22ch]", className)}>
       {children}
     </Tag>
   );

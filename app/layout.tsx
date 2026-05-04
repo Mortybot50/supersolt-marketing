@@ -88,7 +88,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fafaf8",
+  themeColor: "#F5F0E8",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -105,6 +105,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <head>
+        {/* General Sans (display) via Fontshare CDN — free for commercial use */}
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500&display=swap"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

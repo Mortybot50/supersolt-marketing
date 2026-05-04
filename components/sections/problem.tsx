@@ -5,7 +5,7 @@ import { PROBLEM } from "@/content/landing";
 
 export function Problem() {
   return (
-    <Section variant="accent-soft">
+    <Section variant="canvas-deep">
       <Reveal>
         <Eyebrow>{PROBLEM.eyebrow}</Eyebrow>
         <SectionHeading>
@@ -14,28 +14,24 @@ export function Problem() {
             variant: "long",
           })}
         </SectionHeading>
-        <p className="mt-6 max-w-2xl text-balance text-[17px] leading-relaxed text-warm-gray md:text-lg">
+        <p className="mt-8 max-w-[60ch] text-[16px] leading-relaxed text-[var(--color-ink-secondary)] md:text-[17px]">
           {PROBLEM.body}
         </p>
       </Reveal>
 
-      <ul className="mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
+      <ul className="mt-16 grid gap-12 md:grid-cols-3 md:gap-12">
         {PROBLEM.bullets.map((b, i) => (
-          <Reveal
-            as="li"
-            delay={i * 80}
-            key={b.title}
-            className="rounded-2xl border border-line bg-base-light p-7 h-full transition-shadow hover:shadow-card"
-          >
-            <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
+          <Reveal as="li" delay={i * 80} key={b.title}>
+            <div className="font-mono text-[12px] uppercase [letter-spacing:var(--tracking-eyebrow)] text-[var(--color-accent-coral)]">
               {String(i + 1).padStart(2, "0")}
             </div>
-            <h3 className="mt-3 text-xl font-semibold tracking-tight text-base-dark">
+            <h3 className="mt-4 font-[var(--font-display)] text-[clamp(1.4rem,2.2vw,1.75rem)] font-medium leading-tight tracking-[var(--tracking-display)] lowercase text-[var(--color-ink-primary)]">
               {b.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-warm-gray">
+            <p className="mt-3 text-[15px] leading-relaxed text-[var(--color-ink-secondary)]">
               {b.body}
             </p>
+            <div className="mt-6 hairline" aria-hidden="true" />
           </Reveal>
         ))}
       </ul>

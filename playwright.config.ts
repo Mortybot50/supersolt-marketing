@@ -16,6 +16,7 @@ export default defineConfig({
     baseURL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
+    navigationTimeout: 20_000,
   },
   webServer: process.env.BASE_URL
     ? undefined

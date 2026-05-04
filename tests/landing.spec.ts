@@ -1,47 +1,74 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Landing page — UI", () => {
-  test("renders hero with primary headline", async ({ page }) => {
-    await page.goto("/");
+  // Block slow third-party requests (Fontshare CDN, Plausible) so navigation
+  // resolves quickly and React can hydrate before assertions.
+  test.beforeEach(async ({ page }) => {
+    await page.route(/api\.fontshare\.com|cdn\.fontshare\.com|plausible\.io/, (route) =>
+      route.abort(),
+    );
+  });
+
+
+  test("renders hero with primary headline (full string in DOM)", async ({ page }) => {
+    await page.goto("/", { waitUntil: "load" });
     await expect(
-      page.getByRole("heading", { level: 1, name: /Run every venue from one screen/i }),
+      page.getByRole("heading", { level: 1, name: /Run every venue from one screen/i }).first(),
     ).toBeVisible();
   });
 
-  test("renders all 11 content sections / blocks in order", async ({ page }) => {
-    await page.goto("/");
+  test("renders all v2 content sections in order", async ({ page }) => {
+    await page.goto("/", { waitUntil: "load" });
 
     // Hero already covered by h1
-    await expect(page.getByText(/Trusted by Australian operators/i)).toBeVisible();
+    await expect(page.getByText(/Built for Australian hospitality/i).first()).toBeVisible();
     await expect(page.getByText(/Spreadsheets don't run restaurants/i)).toBeVisible();
-    await expect(page.getByText(/What SuperSolt does, in four lines/i)).toBeVisible();
-    await expect(page.getByRole("heading", { name: /Three steps to running tighter/i })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /The three things you'll use every day/i })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /Per venue\. No surprises\./i })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /Questions, answered\./i })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /Stop running your venues from a spreadsheet/i })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Three steps to running tighter/i }),
+    ).toBeVisible();
+    // Audiences (diptych)
+    await expect(page.locator('[data-section="audience-panel"]').first()).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /The three things you'll use every day/i }),
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Per venue\. No surprises/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Questions, answered/i })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Stop running your venues from a spreadsheet/i }),
+    ).toBeVisible();
     await expect(page.getByRole("contentinfo")).toBeVisible();
   });
 
+  test("audiences diptych shows three panels with mockups", async ({ page }) => {
+    await page.goto("/", { waitUntil: "load" });
+    const panels = page.locator('[data-section="audience-panel"]');
+    await expect(panels).toHaveCount(3);
+    await expect(page.locator('[data-panel="tonight"]')).toBeVisible();
+    await expect(page.locator('[data-panel="venue"]')).toBeVisible();
+    await expect(page.locator('[data-panel="every"]')).toBeVisible();
+  });
+
   test("pricing tiers show $199 / $149 / $99 with 3-9 highlighted", async ({ page }) => {
-    await page.goto("/");
-    await page.getByRole("heading", { name: /Per venue\. No surprises\./i }).scrollIntoViewIfNeeded();
+    await page.goto("/", { waitUntil: "load" });
+    await page.getByRole("heading", { name: /Per venue\. No surprises/i }).scrollIntoViewIfNeeded();
     await expect(page.getByText("$199").first()).toBeVisible();
     await expect(page.getByText("$149").first()).toBeVisible();
     await expect(page.getByText("$99").first()).toBeVisible();
     await expect(page.getByText(/Most chosen/i)).toBeVisible();
+    // Featured row uses data-featured attribute
+    await expect(
+      page.locator('[data-pricing-tier="Multi-venue"][data-featured="true"]'),
+    ).toBeVisible();
   });
 
   test("FAQ accordion expands on click", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "load" });
     const trigger = page.getByRole("button", {
       name: /What about Lightspeed, Toast, or other POS systems\?/i,
     });
     await trigger.scrollIntoViewIfNeeded();
 
-    // Initially collapsed (Radix default since first item is open)
     await expect(trigger).toHaveAttribute("data-state", "closed");
-
     await trigger.click();
     await expect(trigger).toHaveAttribute("data-state", "open");
     await expect(
@@ -50,8 +77,7 @@ test.describe("Landing page — UI", () => {
   });
 
   test("nav anchor links scroll to sections", async ({ page }) => {
-    await page.goto("/");
-    // On mobile, nav links live behind the menu toggle.
+    await page.goto("/", { waitUntil: "load" });
     const isMobile = page.viewportSize()?.width
       ? page.viewportSize()!.width < 768
       : false;
@@ -65,7 +91,7 @@ test.describe("Landing page — UI", () => {
   });
 
   test("sign-in link points to supersolt-ten.vercel.app/auth", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "load" });
     const links = page.getByRole("link", { name: /^Sign in$/i });
     const count = await links.count();
     expect(count).toBeGreaterThan(0);
@@ -77,30 +103,28 @@ test.describe("Landing page — UI", () => {
     }
   });
 
-  test("demo CTA reveals mailto fallback when clicked", async ({ page }) => {
-    await page.goto("/");
-    const demoButtons = page.getByRole("button", { name: /Book a 15-min demo/i });
-    await demoButtons.first().scrollIntoViewIfNeeded();
-    await demoButtons.first().click();
-    const mailLink = page.getByRole("link", {
-      name: /Email morty@supersolt\.app/i,
-    });
-    await expect(mailLink.first()).toBeVisible();
-    await expect(mailLink.first()).toHaveAttribute(
-      "href",
-      /^mailto:morty@supersolt\.app/,
-    );
+  test("primary CTA is a mailto link (no chat widget, no Resend)", async ({ page }) => {
+    await page.goto("/", { waitUntil: "load" });
+    const ctas = page.getByRole("link", { name: /Book a 15-min demo/i });
+    const count = await ctas.count();
+    expect(count).toBeGreaterThan(0);
+    for (let i = 0; i < count; i++) {
+      await expect(ctas.nth(i)).toHaveAttribute(
+        "href",
+        /^mailto:morty@supersolt\.app/,
+      );
+    }
   });
 
   test("footer says Made in Melbourne for Australian hospitality", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "load" });
     await expect(
       page.getByText(/Made in Melbourne 🇦🇺 for Australian hospitality\./i),
     ).toBeVisible();
   });
 
   test("no Lovable.dev mentions in DOM", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "load" });
     const html = await page.content();
     expect(html.toLowerCase()).not.toContain("lovable");
   });
@@ -129,14 +153,14 @@ test.describe("Landing page — UI", () => {
   });
 
   test("privacy and terms pages render", async ({ page }) => {
-    await page.goto("/privacy");
+    await page.goto("/privacy", { waitUntil: "load" });
     await expect(page.getByRole("heading", { name: /^Privacy$/i, level: 1 })).toBeVisible();
-    await page.goto("/terms");
+    await page.goto("/terms", { waitUntil: "load" });
     await expect(page.getByRole("heading", { name: /Terms of service/i, level: 1 })).toBeVisible();
   });
 
   test("schema.org JSON-LD present and valid JSON", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "load" });
     const scripts = await page.locator('script[type="application/ld+json"]').allInnerTexts();
     expect(scripts.length).toBeGreaterThanOrEqual(3);
     for (const text of scripts) {

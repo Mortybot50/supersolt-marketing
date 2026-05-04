@@ -47,3 +47,4 @@ next-env.d.ts
 
 # allow committed env example
 !.env.example
+.env*.local

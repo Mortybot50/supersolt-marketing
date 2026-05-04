@@ -1,9 +1,9 @@
 import { Nav } from "@/components/sections/nav";
 import { Hero } from "@/components/sections/hero";
-import { LogosStrip } from "@/components/sections/logos-strip";
+import { SubHeroStrip } from "@/components/sections/sub-hero-strip";
 import { Problem } from "@/components/sections/problem";
-import { Solution } from "@/components/sections/solution";
 import { HowItWorks } from "@/components/sections/how-it-works";
+import { Audiences } from "@/components/sections/audiences";
 import { Features } from "@/components/sections/features";
 import { Pricing } from "@/components/sections/pricing";
 import { Faq } from "@/components/sections/faq";
@@ -16,10 +16,10 @@ export default function HomePage() {
       <Nav />
       <main id="top">
         <Hero />
-        <LogosStrip />
+        <SubHeroStrip />
         <Problem />
-        <Solution />
         <HowItWorks />
+        <Audiences />
         <Features />
         <Pricing />
         <Faq />

@@ -7,7 +7,7 @@ interface RevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
-  as?: "div" | "section" | "article" | "header" | "footer";
+  as?: "div" | "section" | "article" | "header" | "footer" | "li";
 }
 
 /**
@@ -51,7 +51,7 @@ export function Reveal({
 
   return (
     <Tag
-      ref={ref as React.RefObject<HTMLDivElement>}
+      ref={ref as React.Ref<never>}
       className={cn("reveal", className)}
     >
       {children}

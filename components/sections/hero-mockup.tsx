@@ -1,12 +1,10 @@
-import { Reveal } from "@/components/ui/reveal";
-
 /**
  * Visual placeholder mockup for the hero — CSS-only dashboard preview.
  * Replace with real product screenshot when Morty provides PNG.
  */
 export function HeroMockup() {
   return (
-    <Reveal className="relative mx-auto max-w-5xl">
+    <div className="relative mx-auto max-w-5xl">
       <div className="absolute -inset-4 -z-10 rounded-[28px] bg-gradient-to-br from-accent/20 via-transparent to-base-dark/10 blur-2xl" />
       <div className="relative rounded-2xl border border-line bg-white shadow-card overflow-hidden">
         <div className="flex items-center gap-1.5 border-b border-line bg-[#f7f5f0] px-4 py-3">
@@ -120,7 +118,7 @@ export function HeroMockup() {
           </div>
         </div>
       </div>
-    </Reveal>
+    </div>
   );
 }
 

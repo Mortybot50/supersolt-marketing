@@ -14,11 +14,11 @@ export function LogosStrip() {
               className="flex items-center justify-center"
             >
               {logo.featured ? (
-                <span className="text-base font-semibold tracking-tight text-warm-gray opacity-80 grayscale">
+                <span className="text-base font-semibold tracking-tight text-warm-gray grayscale">
                   Piccolo Panini
                 </span>
               ) : (
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-warm-gray-soft">
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-warm-gray">
                   your logo here
                 </span>
               )}

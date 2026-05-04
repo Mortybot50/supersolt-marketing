@@ -21,18 +21,21 @@ export function Problem() {
 
       <ul className="mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
         {PROBLEM.bullets.map((b, i) => (
-          <Reveal as="div" delay={i * 80} key={b.title}>
-            <li className="rounded-2xl border border-line bg-base-light p-7 h-full transition-shadow hover:shadow-card">
-              <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
-                {String(i + 1).padStart(2, "0")}
-              </div>
-              <h3 className="mt-3 text-xl font-semibold tracking-tight text-base-dark">
-                {b.title}
-              </h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-warm-gray">
-                {b.body}
-              </p>
-            </li>
+          <Reveal
+            as="li"
+            delay={i * 80}
+            key={b.title}
+            className="rounded-2xl border border-line bg-base-light p-7 h-full transition-shadow hover:shadow-card"
+          >
+            <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
+              {String(i + 1).padStart(2, "0")}
+            </div>
+            <h3 className="mt-3 text-xl font-semibold tracking-tight text-base-dark">
+              {b.title}
+            </h3>
+            <p className="mt-2 text-[15px] leading-relaxed text-warm-gray">
+              {b.body}
+            </p>
           </Reveal>
         ))}
       </ul>

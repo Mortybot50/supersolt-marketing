@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #fafaf8;
+  --color-foreground: #0a0a0a;
+  --color-base-dark: #0a0a0a;
+  --color-base-light: #fafaf8;
+  --color-warm-gray: #71706b;
+  --color-warm-gray-soft: #b8b6b1;
+  --color-line: #e8e6e1;
+  --color-line-dark: rgba(255, 255, 255, 0.12);
+  --color-accent: #c3261c;
+  --color-accent-dark: #9a1d15;
+  --color-accent-soft: rgba(195, 38, 28, 0.1);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --tracking-tight: -0.02em;
+  --tracking-tighter: -0.035em;
+
+  --shadow-card: 0 1px 2px rgba(10, 10, 10, 0.04), 0 8px 24px -8px rgba(10, 10, 10, 0.06);
+  --shadow-card-hover: 0 1px 2px rgba(10, 10, 10, 0.04), 0 24px 48px -16px rgba(10, 10, 10, 0.12);
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  background: var(--color-base-light);
+  color: var(--color-base-dark);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-feature-settings: "ss01", "cv01", "cv11";
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Subtle hero gradient — slow shift */
+@keyframes hero-shift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(2%, -1%, 0) scale(1.05);
+    opacity: 0.7;
+  }
+}
+
+.hero-gradient {
+  background: radial-gradient(
+      55% 60% at 70% 30%,
+      rgba(195, 38, 28, 0.12) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      45% 50% at 20% 80%,
+      rgba(195, 38, 28, 0.08) 0%,
+      transparent 60%
+    );
+  animation: hero-shift 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Reveal — fade up on intersection */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Hand-drawn underline draw-in animation */
+@keyframes underline-draw {
+  from {
+    stroke-dashoffset: var(--dash, 240);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.underline-svg path {
+  stroke-dasharray: var(--dash, 240);
+  stroke-dashoffset: var(--dash, 240);
+  animation: underline-draw 1.1s 0.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hero-gradient {
+    animation: none !important;
+  }
+  .underline-svg path {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Container utility */
+.container-page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-page {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-page {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Accordion (Radix) */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+[data-state="open"][data-accordion-content] {
+  animation: accordion-down 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-state="closed"][data-accordion-content] {
+  animation: accordion-up 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-radix-accordion-content][data-state="open"] {
+  animation: accordion-down 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-radix-accordion-content][data-state="closed"] {
+  animation: accordion-up 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

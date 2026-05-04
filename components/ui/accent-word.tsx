@@ -6,25 +6,41 @@ interface AccentWordProps {
   underline?: boolean;
   variant?: "short" | "long";
   className?: string;
+  tone?: "coral" | "inverse";
 }
 
 /**
- * Single-word red accent — visual signature.
- * Wraps a word/phrase in accent red, optionally with hand-drawn underline.
+ * Single-word coral accent — visual signature.
+ * Wraps a word/phrase in coral, optionally with a hand-drawn underline.
+ * Reusable across canvas (coral) and dark/coral panels (inverse / underline white).
  */
 export function AccentWord({
   children,
-  underline = false,
+  underline = true,
   variant = "short",
   className,
+  tone = "coral",
 }: AccentWordProps) {
   return (
-    <span className={cn("relative inline-block text-accent", className)}>
+    <span
+      data-accent-word
+      className={cn(
+        "relative inline-block",
+        tone === "coral" && "text-[var(--color-accent-coral)]",
+        tone === "inverse" && "text-[var(--color-ink-inverse)]",
+        className,
+      )}
+    >
       {children}
       {underline && (
         <Underline
           variant={variant}
-          className="absolute left-0 right-0 -bottom-2 h-[0.4em] w-full text-accent"
+          className={cn(
+            "absolute left-0 right-0 -bottom-2 h-[0.4em] w-full",
+            tone === "coral"
+              ? "text-[var(--color-accent-coral)]"
+              : "text-[var(--color-ink-inverse)]",
+          )}
         />
       )}
     </span>
@@ -32,14 +48,17 @@ export function AccentWord({
 }
 
 /**
- * Replace a single word in a string with the accent treatment.
- * Case-insensitive match on first occurrence.
- * Renders the rest as plain text.
+ * Replace the first occurrence of a word in a string with the accent treatment.
+ * Case-insensitive match. Renders the rest as plain text.
  */
 export function withAccent(
   text: string,
   word: string,
-  options: { underline?: boolean; variant?: "short" | "long" } = {},
+  options: {
+    underline?: boolean;
+    variant?: "short" | "long";
+    tone?: "coral" | "inverse";
+  } = {},
 ) {
   const idx = text.toLowerCase().indexOf(word.toLowerCase());
   if (idx === -1) return text;
@@ -49,7 +68,11 @@ export function withAccent(
   return (
     <>
       {before}
-      <AccentWord underline={options.underline} variant={options.variant}>
+      <AccentWord
+        underline={options.underline ?? true}
+        variant={options.variant ?? "short"}
+        tone={options.tone}
+      >
         {matched}
       </AccentWord>
       {after}

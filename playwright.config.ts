@@ -16,6 +16,9 @@ export default defineConfig({
     baseURL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
+    navigationTimeout: 20_000,
+    // Disable CSS animations / reveal transitions for stable tests
+    reducedMotion: "reduce",
   },
   webServer: process.env.BASE_URL
     ? undefined

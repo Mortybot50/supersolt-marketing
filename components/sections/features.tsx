@@ -5,14 +5,14 @@ import { FEATURES } from "@/content/landing";
 
 export function Features() {
   return (
-    <Section id="features">
+    <Section id="features" variant="canvas">
       <Reveal>
         <Eyebrow>{FEATURES.eyebrow}</Eyebrow>
-        <SectionHeading>The three things you'll use every day.</SectionHeading>
+        <SectionHeading>{FEATURES.headline}</SectionHeading>
       </Reveal>
 
-      <div className="mt-16 space-y-24 md:space-y-32">
-        {FEATURES.blocks.map((block) => (
+      <div className="mt-20 space-y-32 md:space-y-40">
+        {FEATURES.blocks.map((block, i) => (
           <FeatureBlock
             key={block.headline}
             kicker={block.kicker}
@@ -22,6 +22,7 @@ export function Features() {
             bullets={block.bullets}
             alignment={block.alignment}
             mockup={block.mockup}
+            index={i}
           />
         ))}
       </div>

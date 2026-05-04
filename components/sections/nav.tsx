@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { NAV, SITE } from "@/content/landing";
+import { NAV, HERO, SITE } from "@/content/landing";
 import { cn } from "@/lib/utils";
 
 export function Nav() {
@@ -30,18 +30,20 @@ export function Nav() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all",
         scrolled
-          ? "border-b border-line bg-base-light/85 backdrop-blur-md"
+          ? "border-b border-[var(--color-rule-line)] bg-[var(--color-bg-canvas)]/85 backdrop-blur-md"
           : "border-b border-transparent bg-transparent",
       )}
     >
       <nav className="container-page flex h-16 items-center justify-between md:h-18">
         <Link
           href="/"
-          className="group inline-flex items-center gap-2 font-semibold tracking-tight"
+          className="group inline-flex items-center gap-3"
           aria-label={`${SITE.name} home`}
         >
           <Logo />
-          <span className="text-[17px]">{SITE.name}</span>
+          <span className="font-[var(--font-display)] text-[18px] tracking-[var(--tracking-display)] lowercase text-[var(--color-ink-primary)]">
+            {SITE.name}
+          </span>
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -49,7 +51,7 @@ export function Nav() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-[15px] text-warm-gray transition-colors hover:text-base-dark"
+                className="text-[14px] text-[var(--color-ink-secondary)] transition-colors hover:text-[var(--color-ink-primary)]"
               >
                 {link.label}
               </Link>
@@ -57,21 +59,21 @@ export function Nav() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-5 md:flex">
           <Link
             href={NAV.signIn.href}
-            className="text-[15px] text-warm-gray transition-colors hover:text-base-dark"
+            className="text-[14px] text-[var(--color-ink-secondary)] transition-colors hover:text-[var(--color-ink-primary)]"
           >
             {NAV.signIn.label}
           </Link>
-          <Button asChild size="sm" variant="primary">
-            <Link href={NAV.cta.href}>{NAV.cta.label}</Link>
+          <Button asChild size="sm" variant="coral">
+            <Link href={HERO.primaryCta.href}>{NAV.cta.label}</Link>
           </Button>
         </div>
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-base-dark md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--color-ink-primary)] md:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -82,31 +84,31 @@ export function Nav() {
 
       {open && (
         <div className="md:hidden">
-          <div className="container-page border-t border-line py-6">
+          <div className="container-page border-t border-[var(--color-rule-line)] bg-[var(--color-bg-canvas)] py-6">
             <ul className="flex flex-col gap-1">
               {NAV.links.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-lg py-3 text-base text-base-dark hover:text-accent"
+                    className="block py-3 text-[16px] text-[var(--color-ink-primary)] hover:text-[var(--color-accent-coral)]"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
-              <li className="mt-2 border-t border-line pt-4">
+              <li className="mt-2 border-t border-[var(--color-rule-line)] pt-4">
                 <Link
                   href={NAV.signIn.href}
-                  className="block py-2 text-base text-warm-gray"
+                  className="block py-2 text-[15px] text-[var(--color-ink-secondary)]"
                 >
                   {NAV.signIn.label}
                 </Link>
               </li>
               <li className="mt-3">
-                <Button asChild size="md" variant="primary" className="w-full">
+                <Button asChild size="md" variant="coral" className="w-full">
                   <Link
-                    href={NAV.cta.href}
+                    href={HERO.primaryCta.href}
                     onClick={() => setOpen(false)}
                   >
                     {NAV.cta.label}
@@ -124,7 +126,7 @@ export function Nav() {
 function Logo() {
   return (
     <span
-      className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-base-dark text-white"
+      className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[var(--color-panel-dark)] text-[var(--color-ink-inverse)]"
       aria-hidden="true"
     >
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

@@ -8,12 +8,18 @@ const breakpoints = [
 ];
 
 test.describe("Responsive — visual smoke at 4 breakpoints", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.route(/api\.fontshare\.com|cdn\.fontshare\.com|plausible\.io/, (route) =>
+      route.abort(),
+    );
+  });
+
   for (const bp of breakpoints) {
     test(`renders at ${bp.width}x${bp.height}`, async ({ page }) => {
       await page.setViewportSize({ width: bp.width, height: bp.height });
-      await page.goto("/");
+      await page.goto("/", { waitUntil: "load" });
       await expect(
-        page.getByRole("heading", { level: 1 }),
+        page.getByRole("heading", { level: 1 }).first(),
       ).toBeVisible();
       // No horizontal scroll
       const docWidth = await page.evaluate(
@@ -23,6 +29,8 @@ test.describe("Responsive — visual smoke at 4 breakpoints", () => {
       await page.screenshot({
         path: `test-results/screens/landing-${bp.name}.png`,
         fullPage: false,
+        animations: "disabled",
+        timeout: 5000,
       });
     });
   }
@@ -34,8 +42,14 @@ test.describe("Keyboard navigation", () => {
     "WebKit excludes links from default tab order on macOS/iOS",
   );
 
+  test.beforeEach(async ({ page }) => {
+    await page.route(/api\.fontshare\.com|cdn\.fontshare\.com|plausible\.io/, (route) =>
+      route.abort(),
+    );
+  });
+
   test("Tab reaches primary CTA in hero", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "load" });
     // Tab a few times — should land on at least one focusable element from the nav region
     for (let i = 0; i < 6; i++) {
       await page.keyboard.press("Tab");

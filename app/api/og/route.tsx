@@ -56,10 +56,11 @@ export async function GET() {
               alignItems: "center",
               justifyContent: "center",
               color: "#fff",
-              fontSize: 28,
+              fontSize: 24,
+              fontWeight: 700,
             }}
           >
-            ✓
+            S
           </div>
           SuperSolt
         </div>
@@ -120,7 +121,7 @@ export async function GET() {
             letterSpacing: 0.5,
           }}
         >
-          <div>Made in Melbourne 🇦🇺</div>
+          <div>Made in Melbourne, AU</div>
           <div style={{ color: "#0a0a0a", fontWeight: 500 }}>supersolt.app</div>
         </div>
       </div>

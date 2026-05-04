@@ -38,6 +38,7 @@ body {
   color: var(--color-base-dark);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   font-feature-settings: "ss01", "cv01", "cv11";
+  overflow-x: hidden;
 }
 
 ::selection {

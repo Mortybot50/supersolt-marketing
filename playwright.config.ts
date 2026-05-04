@@ -28,11 +28,22 @@ export default defineConfig({
   projects: [
     {
       name: "chromium-desktop",
-      use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 800 } },
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1280, height: 800 },
+        launchOptions: {
+          args: ["--no-sandbox", "--disable-dev-shm-usage"],
+        },
+      },
     },
     {
       name: "mobile-iphone",
-      use: { ...devices["iPhone 13"] },
+      use: {
+        ...devices["iPhone 13"],
+        launchOptions: {
+          args: ["--no-sandbox", "--disable-dev-shm-usage"],
+        },
+      },
     },
   ],
 });
